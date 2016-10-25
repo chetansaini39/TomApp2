@@ -12,6 +12,7 @@ public class StartUI {
     public static void main(String args[]) {
         Dimension screenSize=Toolkit.getDefaultToolkit().getScreenSize();
         screenSize.height=(int) (screenSize.getHeight()-100);
+        screenSize.width=(int) (screenSize.getWidth()-450);
           /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> {
             MainFrame mainFrame=new MainFrame();

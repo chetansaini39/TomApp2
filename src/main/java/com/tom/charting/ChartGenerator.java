@@ -48,40 +48,41 @@ public class ChartGenerator {
         if (xAxisTitle != null || !xAxisTitle.equals("")) {
             this.getPlot().setAxisLabel(0, xAxisTitle);//set the asix label
             this.getPlot().getAxis(0).setLabelPosition(0.5, -0.15);
-           
+
         }
         if (yAxisTitle != null || !yAxisTitle.equals("")) {
             this.getPlot().setAxisLabel(1, yAxisTitle);//set the axis label
             this.getPlot().getAxis(1).setLabelPosition(-0.15, 0.5);
         }
         if (red != 0.0 & green != 0.0)//if there are red and green values provided
-        { //plot red bars
-          this.getPlot().getAxis(0).setLabelFont(new Font("BebasNeue", Font.BOLD, 30));
-          this.getPlot().getAxis(0).setColor(AllConstants.TOM_LETTERS);
-          this.getPlot().getAxis(0).setLightLabelColor(AllConstants.TOM_LETTERS);
-          this.getPlot().getAxis(0).setLightLabelFont(new Font("BebasNeue", Font.PLAIN, 25));
-            
-          this.getPlot().getAxis(1).setColor(AllConstants.TOM_LETTERS);
-          this.getPlot().getAxis(1).setLightLabelColor(AllConstants.TOM_LETTERS);
-          this.getPlot().getAxis(1).setLightLabelFont(new Font("BebasNeue", Font.PLAIN, 25));
-          // add a title
-                BaseLabel titleBL = new BaseLabel(title, AllConstants.TOM_LETTERS, 0.5, 1.2);
-                titleBL.setFont(new Font("BebasNeue", Font.BOLD, 45));
-                plot.addPlotable(titleBL);          
-           
+        {
+            //plot red bars
+//            this.getPlot().getAxis(0).setLabelFont(new Font("BebasNeue", Font.BOLD, 30));
+            this.getPlot().getAxis(0).setColor(AllConstants.TOM_LETTERS);
+            this.getPlot().getAxis(0).setLightLabelColor(AllConstants.TOM_LETTERS);
+            this.getPlot().getAxis(0).setLightLabelFont(new Font("BebasNeue", Font.PLAIN, 55));
+
+            this.getPlot().getAxis(1).setColor(AllConstants.TOM_LETTERS);
+            this.getPlot().getAxis(1).setLightLabelColor(AllConstants.TOM_LETTERS);
+            this.getPlot().getAxis(1).setLightLabelFont(new Font("BebasNeue", Font.PLAIN, 55));
+            // add a title
+            BaseLabel titleBL = new BaseLabel(title, AllConstants.TOM_LETTERS, 0.5, 1.2);
+            titleBL.setFont(new Font("BebasNeue", Font.BOLD, 45));
+            plot.addPlotable(titleBL);
+
             double[] redBarValues = findRedBarValues(yData, red);
             double[] yellowBarValues = findYellowBarValues(yData, red, green);
             double[] greenBarValues = findGreenBarValues(yData, green);
             double width = 0.75;
             HistogramPlot2D redPlot = new HistogramPlot2D(title, AllConstants.TOM_RED, Array.buildXY(xData, redBarValues), width);
-            redPlot.setAlpha(1); 
-            
+            redPlot.setAlpha(1);
+
             HistogramPlot2D yellowPlot = new HistogramPlot2D(title, AllConstants.TOM_YELLOW, Array.buildXY(xData, yellowBarValues), width);
-            yellowPlot.setAlpha(1); 
-            
+            yellowPlot.setAlpha(1);
+
             HistogramPlot2D greenPlot = new HistogramPlot2D(title, AllConstants.TOM_GREEN, Array.buildXY(xData, greenBarValues), width);
             greenPlot.setAlpha(1);
-            
+
             List<Double> tempWeekList = new ArrayList<>();
             Double week0 = xData[0] - 1;//to generate week one less than given
             tempWeekList.add(week0);
@@ -96,16 +97,17 @@ public class ChartGenerator {
             LinePlot yellowLinePlot = new LinePlot("", Color.GREEN, Array.buildXY(xTempLineData, yTmpLineDataYellow));
             double[] yTmpLineDataBlack = new double[xData.length + 2];
             Arrays.fill(yTmpLineDataBlack, 0);
-            LinePlot blackLinePlot = new LinePlot("", Color.BLACK, Array.buildXY(xTempLineData, yTmpLineDataBlack));
+            LinePlot blackLinePlot = new LinePlot("", Color.GRAY, Array.buildXY(xTempLineData, yTmpLineDataBlack));
             plot.addPlot(redLinePlot);
             plot.addPlot(yellowLinePlot);
             plot.addPlot(redPlot);
             plot.addPlot(yellowPlot);
-            plot.addPlot(greenPlot);            
+            plot.addPlot(greenPlot);
             plot.addPlot(blackLinePlot);
-            plot.getAxis(0).setLightLabelText(getNewXAxisLabels(xData).toArray(new String[0]));            
-            plot.plotCanvas.setBackground(AllConstants.TOM_BACKGROUND);  
-            plot.setSize(560, 450);
+            plot.getAxis(0).setLightLabelText(getNewXAxisLabels(xData).toArray(new String[0]));
+            System.out.println(Arrays.toString(yData));
+//            plot.getAxis(1).setLightLabelText(getNewYAxisLabel(yData).toArray(new String[0]));
+            plot.plotCanvas.setBackground(AllConstants.TOM_BACKGROUND);
 
         } else {//if no red or green specified, create a simple bar chart
             HistogramPlot2D plot2D = new HistogramPlot2D(title, barColor, xyData, 0.5);
@@ -113,7 +115,6 @@ public class ChartGenerator {
         }
     }
 
-    
     /**
      * Method to create barPlot
      *
@@ -261,22 +262,69 @@ public class ChartGenerator {
     public void setGreen(double green) {
         this.green = green;
     }
-    
-    public List<String>  getNewXAxisLabels(double[] xAxisData)
-    {
+
+    public List<String> getNewXAxisLabels(double[] xAxisData) {
         SimpleDateFormat sdf = new SimpleDateFormat("MM/dd ");
-Calendar cal = Calendar.getInstance();
-        
-cal.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
-       List<String> xAxisLabels= new ArrayList<>();
-       xAxisLabels.add("");
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+        List<String> xAxisLabels = new ArrayList<>();
+        xAxisLabels.add("");
         for (int i = 0; i < xAxisData.length; i++) {
             double d = xAxisData[i];
-            cal.set(Calendar.WEEK_OF_YEAR, (int)d);
-           xAxisLabels.add(sdf.format(cal.getTime()));
+            cal.set(Calendar.WEEK_OF_YEAR, (int) d);
+            xAxisLabels.add(sdf.format(cal.getTime()));
         }
-       xAxisLabels.add(""); 
+        xAxisLabels.add("");
         return xAxisLabels;
+    }
+    
+    /**
+     * Method to replace the yAxis label values with custom values
+     * @param yData
+     * @return 
+     */
+    public List<String> getNewYAxisLabel(double[] yData)
+    {      
+        List<String> yAxisLabels = new ArrayList<>();
+        for (int i = 0; i < yData.length; i++) {
+            double d = yData[i];
+            StringBuffer val= new StringBuffer(String.valueOf((int)d));
+            int length=val.length();
+            if(length>=4)
+            {
+                val.replace(length-3, length, "K");
+                System.out.println(val.toString());
+            }            
+                yAxisLabels.add(val.toString());
+           
+        }
+        System.out.println(Arrays.toString(yData));
+        System.out.println(yAxisLabels);
+        return yAxisLabels;
+    }
+    
+    /**
+     * Method to replace the yAxis label values with custom values
+     * @param yData
+     * @return 
+     */
+    public List<String> getNewYAxisLabel(String[] yData)
+    {      
+        List<String> yAxisLabels = new ArrayList<>();
+        for (int i = 0; i < yData.length; i++) {
+            StringBuffer val= new StringBuffer(yData[i]);
+            int length=val.length();
+            if(length>=4)
+            {
+                val.replace(length-3, length, "K");
+                System.out.println(val.toString());
+            }            
+                yAxisLabels.add(val.toString());
+           
+        }
+        System.out.println(Arrays.toString(yData));
+        System.out.println(yAxisLabels);
+        return yAxisLabels;
     }
 
 }

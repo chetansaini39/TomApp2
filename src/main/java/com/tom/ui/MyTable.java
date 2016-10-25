@@ -54,7 +54,7 @@ public class MyTable {
         FloatColumn col_sales = FloatColumn.create(ExcelKeys.sales);
         FloatColumn col_partnershipProgress = FloatColumn.create(ExcelKeys.partnershipProgress);
         table.addColumn(column, col_weekNo, col_webDrivenRAQ, col_newVisitorsPerWeek, col_pcntNewVisitorsPerWeek, col_returningVisitorsPerWeek, col_avgTimePerSession,
-                col_webpagesViewedPerWeek, col_totalSessionPerWeek, col_avgPageCountPerSession, col_tradeShowsPerWeek, col_tradeShowLeads, col_newProspectsContacted,
+               col_webpagesViewedPerWeek, col_totalSessionPerWeek, col_avgPageCountPerSession, col_tradeShowsPerWeek, col_tradeShowLeads, col_newProspectsContacted,
                 col_f2fMeetings, col_networkMining, col_quotations, col_pipelineValue, col_bookings, col_sales, col_partnershipProgress);
         return table;
 	}
@@ -63,11 +63,9 @@ public class MyTable {
  * @return 
  */
 	public Table getTable() {
-            if(this.table==null || this.table.isEmpty() || this.table.rowCount()<2)//if there is no data, then create table
-            {
+           
             this.table=createTableFromMongoData(MongoServerInstance.getInstance());    
-            }
-		return this.table;
+            return this.table.sortAscendingOn(ExcelKeys.WEEK_NO);
 	}
 
 	/**

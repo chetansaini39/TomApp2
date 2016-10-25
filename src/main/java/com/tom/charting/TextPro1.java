@@ -5,6 +5,7 @@
  */
 package com.tom.charting;
 
+import com.tom.AppSharedData.AppSharedData;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -21,7 +22,7 @@ import javax.swing.JPanel;
  */
 public class TextPro1 extends JPanel {
 
-    int width = 414, height = 450;
+    int width = 414, height = 650;
     String numericTxtBig = "7.1M";
     private Color numberColor = new Color(143, 212, 0);
     Color backgroundColor = new Color(27, 35, 42);
@@ -42,9 +43,7 @@ public class TextPro1 extends JPanel {
             numbersize=150;
         }
         Font bigNumTxtFont = new Font("BebasNeue", Font.BOLD, numbersize);
-        panel.setBackground(backgroundColor);
-        panel.setSize(width, height);
-        panel.setMaximumSize(new Dimension(width, height));        
+        panel.setBackground(backgroundColor);    
         panel.setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
         JLabel label_NumericVal = new JLabel(numericTxtBig);
@@ -111,8 +110,8 @@ if(numbersize==150)
         super.paintComponent(g); //To change body of generated methods, choose Tools | Templates.
 
         g.setColor(lineColor);
-        g.fillRect(35, 220, width-80, 7);//horizontal
-        g.fillRect(10, 20, 7, width-90);//vertical
+        g.fillRect(35, 420, AppSharedData.CHART_PANEL_Y, 7);//horizontal
+        g.fillRect(10, 150, 7, AppSharedData.CHART_PANEL_Y+40);//vertical
 //        g.drawLine(10, 100, 210, 100);
     }
 

@@ -19,6 +19,7 @@ public class AppSharedData {
     public static final double marketing_rules_red[]={5,450,.35,350,2.45,3500,800,2,5};
     public static final double sales_rules_green[]={40,20,50,20,6000000,300000,300000,7};
     public static final double sales_rules_red[]={20,10,25,10,4000000,200000,200000,4};
+    public static int CHART_PANEL_Y= 450;
 
 
 }

@@ -19,7 +19,9 @@ import java.nio.file.LinkOption;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.stream.Stream;
 import javax.imageio.ImageIO;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 
@@ -64,6 +66,7 @@ public class MainFrame extends javax.swing.JFrame {
         jButton_SaveChartImages = new javax.swing.JButton();
         jButton_CreateCharts = new javax.swing.JButton();
         jButton_ViewRecords = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
@@ -119,7 +122,7 @@ public class MainFrame extends javax.swing.JFrame {
         );
         jPanel_chartsLayout.setVerticalGroup(
             jPanel_chartsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 500, Short.MAX_VALUE)
+            .addGap(0, 533, Short.MAX_VALUE)
         );
 
         jScrollPane_charts.setViewportView(jPanel_charts);
@@ -167,6 +170,13 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
+        jButton2.setText("Delete Records");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -175,6 +185,7 @@ public class MainFrame extends javax.swing.JFrame {
             .addComponent(jButton_CreateCharts, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jButton_ViewRecords, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jButton_SaveChartImages, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
+            .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -186,7 +197,9 @@ public class MainFrame extends javax.swing.JFrame {
                 .addComponent(jButton_CreateCharts, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton_SaveChartImages, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(337, Short.MAX_VALUE))
         );
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -232,8 +245,7 @@ public class MainFrame extends javax.swing.JFrame {
             MongoServerInstance.getInstance();
         }
         jPanel_charts.removeAll();
-        jPanel_charts.invalidate();
-         
+        jPanel_charts.invalidate();         
         jPanel_charts.setLayout(new BorderLayout());
         JTable table = executeCommands.showDataTable();
         System.out.println("size " + jPanel_charts.getSize());
@@ -249,7 +261,6 @@ public class MainFrame extends javax.swing.JFrame {
         jPanel_charts.removeAll();//remove all the stuff from the panel
         jPanel_charts.invalidate();
         jPanel_charts.setLayout(new GridLayout(0, 1, 5, 5));
-        jPanel_charts.setMaximumSize(new Dimension(957, 460));
         Dimension d = new Dimension(560, 450);//chart size
         charts = executeCommands.createCharts(d);
         System.out.println("Total Charts " + charts.size());
@@ -268,9 +279,9 @@ public class MainFrame extends javax.swing.JFrame {
             }
             System.out.println("Total Charts saved : " + charts.size());
             for (int i = 0; i < charts.size(); i++) {
-                File file = new File("C:\\Tom Chart Images\\" + i + ".jpg");
+                File file = new File("C:\\Tom Chart Images\\" + i + ".png");
                 BufferedImage bi= ScreenImage.createImage(charts.get(i));               
-                ImageIO.write( bi, "JPEG", file);
+                ImageIO.write( bi, "PNG", file);
             }
             System.out.println("Files Saved in " + dirPath);
         } catch (IOException e) {
@@ -279,9 +290,17 @@ public class MainFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton_SaveChartImagesActionPerformed
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        String weekNosToDelete=JOptionPane.showInputDialog("Enter Week Nos, seperated by comma");
+        
+        int [] v = Stream.of(weekNosToDelete.split(",\\s+")).mapToInt(Integer::parseInt).toArray();
+        executeCommands.deleteRecords(v);
+    }//GEN-LAST:event_jButton2ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton_CreateCharts;
     private javax.swing.JButton jButton_ImportFromExcel;
     private javax.swing.JButton jButton_SaveChartImages;

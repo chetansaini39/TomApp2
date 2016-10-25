@@ -6,6 +6,7 @@ import com.mongodb.Block;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
+import com.mongodb.client.result.DeleteResult;
 import com.tom.AppSharedData.AppSharedData;
 import com.tom.AppSharedData.ExcelKeys;
 import com.tom.excelfileIO.ExcelData;
@@ -67,6 +68,21 @@ public class MongoOps {
             }
         }
         return result;
+    }
+    
+    /**
+     * Method to delete a record
+     * @param collectionName
+     * @param WeekNo 
+     */
+    public void deleteRecord(String collectionName, int WeekNo)
+    {
+         if (mongoDB != null && collectionName != null ) {
+             
+             DeleteResult dr=mongoDB.getCollection(collectionName).deleteOne(new Document(ExcelKeys.WEEK_NO, WeekNo));
+             System.out.println(dr);
+         }
+         
     }
 
     /**
