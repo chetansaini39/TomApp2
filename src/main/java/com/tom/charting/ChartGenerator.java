@@ -113,52 +113,7 @@ public class ChartGenerator {
         }
     }
 
-    /**
-     * Method to setup data on the side of chart
-     *
-     * @param title
-     * @param yData
-     * @throws NumberFormatException
-     */
-    private void dataOnChartSide(String title, double[] yData) throws NumberFormatException {
-        BaseLabel titleChart = new BaseLabel(title, Color.BLUE, 0.5, 1.1);
-        titleChart.setFont(new Font("Courier", Font.BOLD, 18));
-        plot.addPlotable(titleChart);
-        StringBuffer numberOnRight = new StringBuffer(String.valueOf((int) (yData[yData.length - 1])));//the big number on right
-        double lastvalue = yData[yData.length - 1];
-        Color bigTxtColor = Color.GREEN;
-        if (lastvalue <= red) {
-            bigTxtColor = Color.RED;
-        } else if (lastvalue > red && lastvalue <= green) {
-            bigTxtColor = Color.YELLOW;
-        }
-        if (numberOnRight.length() == 7)//modify the data presentation
-        {
-            double amt = Float.parseFloat(numberOnRight.toString()) / 1000000;
-            DecimalFormat df = new DecimalFormat();
-            df.setMaximumFractionDigits(1);
-            numberOnRight = new StringBuffer(String.valueOf(df.format(amt)) + "M");
-        } else if (numberOnRight.length() >= 5)//modify the data presentation
-        {
-            double amt = Float.parseFloat(numberOnRight.toString()) / 1000;
-            DecimalFormat df = new DecimalFormat();
-            df.setMaximumFractionDigits(1);
-            numberOnRight = new StringBuffer(String.valueOf(df.format(amt)) + "K");
-        }
-        BaseLabel titleChart2 = new BaseLabel(numberOnRight.toString(), bigTxtColor, 1.1, 0.7);
-        titleChart2.setFont(new Font("Arial Narrow", Font.BOLD, 48));//lable at the end of panel
-        plot.addPlotable(titleChart2);
-        BaseLabel titleChart3 = new BaseLabel("Total", Color.BLUE, 1.1, 0.5);
-        titleChart3.setFont(new Font("Courier", Font.BOLD, 18));//lable at the end of panel
-        plot.addPlotable(titleChart3);
-        BaseLabel titleChart4 = new BaseLabel("Current", Color.BLUE, 1.1, 0.4);
-        titleChart4.setFont(new Font("Courier", Font.BOLD, 18));//lable at the end of panel
-        plot.addPlotable(titleChart4);
-        BaseLabel titleChart5 = new BaseLabel("Week", Color.BLUE, 1.1, 0.3);
-        titleChart5.setFont(new Font("Courier", Font.BOLD, 18));//lable at the end of panel
-        plot.addPlotable(titleChart5);
-    }
-
+    
     /**
      * Method to create barPlot
      *
@@ -313,7 +268,6 @@ public class ChartGenerator {
 Calendar cal = Calendar.getInstance();
         
 cal.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
-System.out.println(sdf.format(cal.getTime())); 
        List<String> xAxisLabels= new ArrayList<>();
        xAxisLabels.add("");
         for (int i = 0; i < xAxisData.length; i++) {

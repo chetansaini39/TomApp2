@@ -248,8 +248,6 @@ public class MainFrame extends javax.swing.JFrame {
     private void jButton_CreateChartsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_CreateChartsActionPerformed
         jPanel_charts.removeAll();//remove all the stuff from the panel
         jPanel_charts.invalidate();
-        jPanel_charts.setSize(957, 460);
-//        jPanel_charts.setLayout(new FlowLayout());
         jPanel_charts.setLayout(new GridLayout(0, 1, 5, 5));
         jPanel_charts.setMaximumSize(new Dimension(957, 460));
         Dimension d = new Dimension(560, 450);//chart size
