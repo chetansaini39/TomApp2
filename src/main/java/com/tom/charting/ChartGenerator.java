@@ -75,8 +75,7 @@ public class ChartGenerator {
             double[] greenBarValues = findGreenBarValues(yData, green);
             double width = 0.75;
             HistogramPlot2D redPlot = new HistogramPlot2D(title, AllConstants.TOM_RED, Array.buildXY(xData, redBarValues), width);
-            redPlot.setAlpha(1);
-
+            redPlot.setAlpha(1);    
             HistogramPlot2D yellowPlot = new HistogramPlot2D(title, AllConstants.TOM_YELLOW, Array.buildXY(xData, yellowBarValues), width);
             yellowPlot.setAlpha(1);
 
@@ -105,10 +104,8 @@ public class ChartGenerator {
             plot.addPlot(greenPlot);
             plot.addPlot(blackLinePlot);
             plot.getAxis(0).setLightLabelText(getNewXAxisLabels(xData).toArray(new String[0]));
-            System.out.println(Arrays.toString(yData));
-//            plot.getAxis(1).setLightLabelText(getNewYAxisLabel(yData).toArray(new String[0]));
             plot.plotCanvas.setBackground(AllConstants.TOM_BACKGROUND);
-
+            
         } else {//if no red or green specified, create a simple bar chart
             HistogramPlot2D plot2D = new HistogramPlot2D(title, barColor, xyData, 0.5);
             this.getPlot().addPlot(plot2D);
@@ -277,54 +274,63 @@ public class ChartGenerator {
         xAxisLabels.add("");
         return xAxisLabels;
     }
-    
+
     /**
      * Method to replace the yAxis label values with custom values
+     *
      * @param yData
-     * @return 
+     * @return
      */
-    public List<String> getNewYAxisLabel(double[] yData)
-    {      
+    public List<String> getNewYAxisLabel(double[] yData) {
         List<String> yAxisLabels = new ArrayList<>();
         for (int i = 0; i < yData.length; i++) {
             double d = yData[i];
-            StringBuffer val= new StringBuffer(String.valueOf((int)d));
-            int length=val.length();
-            if(length>=4)
-            {
-                val.replace(length-3, length, "K");
+            StringBuffer val = new StringBuffer(String.valueOf((int) d));
+            int length = val.length();
+            if (length >= 4) {
+                val.replace(length - 3, length, "K");
                 System.out.println(val.toString());
-            }            
-                yAxisLabels.add(val.toString());
-           
+            }
+            yAxisLabels.add(val.toString());
+
         }
         System.out.println(Arrays.toString(yData));
         System.out.println(yAxisLabels);
         return yAxisLabels;
     }
-    
+
     /**
      * Method to replace the yAxis label values with custom values
+     *
      * @param yData
-     * @return 
+     * @return
      */
-    public List<String> getNewYAxisLabel(String[] yData)
-    {      
+    public List<String> getNewYAxisLabel(String[] yData) {
         List<String> yAxisLabels = new ArrayList<>();
         for (int i = 0; i < yData.length; i++) {
-            StringBuffer val= new StringBuffer(yData[i]);
-            int length=val.length();
-            if(length>=4)
-            {
-                val.replace(length-3, length, "K");
+            StringBuffer val = new StringBuffer(yData[i]);
+            int length = val.length();
+            if (length >= 4) {
+                val.replace(length - 3, length, "K");
                 System.out.println(val.toString());
-            }            
-                yAxisLabels.add(val.toString());
-           
+            }
+            yAxisLabels.add(val.toString());
+
         }
         System.out.println(Arrays.toString(yData));
         System.out.println(yAxisLabels);
         return yAxisLabels;
+    }
+
+    /**
+     * Method to setup data on the side of chart
+     *
+     * @param title
+     * @param yData
+     */
+    private void dataOnChartSide(String title, double[] yData) throws NumberFormatException {
+        // TODO - implement ChartGenerator.dataOnChartSide
+        throw new UnsupportedOperationException();
     }
 
 }
