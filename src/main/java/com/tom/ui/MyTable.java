@@ -11,7 +11,9 @@ import com.tom.AppSharedData.AppSharedData;
 import com.tom.AppSharedData.ExcelKeys;
 import com.tom.excelfileIO.ExcelData;
 import com.tom.mongoDB.MongoServerInstance;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import org.bson.Document;
 
 public class MyTable {
@@ -32,7 +34,7 @@ public class MyTable {
 	}
 
 	public Table createEmptyTable() {
-	    Table table = Table.create(AppSharedData.collectionName);
+	Table table = Table.create(AppSharedData.collectionName);
         CategoryColumn column = CategoryColumn.create("ID");
         FloatColumn col_weekNo = FloatColumn.create(ExcelKeys.WEEK_NO);
         FloatColumn col_webDrivenRAQ = FloatColumn.create(ExcelKeys.webDrivenRAQ);
@@ -91,6 +93,7 @@ public class MyTable {
      */
     public  Table createTableFromMongoData(MongoDatabase mongoDatabase) {
         Table emptyTable= createEmptyTable();
+        System.out.println("ColWidth-> "+Arrays.toString(emptyTable.colWidths()));
         System.out.println("createTableFromMongoData");
         if (AppSharedData.MongoRunning) {
             try {
@@ -122,7 +125,7 @@ public class MyTable {
                     emptyTable.column(13).addCell(data.getF2fMeetings());
                     emptyTable.column(14).addCell(data.getNetworkMining());
                     emptyTable.column(15).addCell(data.getQuotations());
-                    emptyTable.column(16).addCell(data.getPipelineValue());
+                    emptyTable.column(16).addCell(data.getPipelineValue());//Int
                     emptyTable.column(17).addCell(data.getBookings());
                     emptyTable.column(18).addCell(data.getSales());
                     emptyTable.column(19).addCell(data.getPartnershipProgress());

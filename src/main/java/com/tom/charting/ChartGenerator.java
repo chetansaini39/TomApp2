@@ -1,16 +1,20 @@
 package com.tom.charting;
 
+import com.google.common.collect.Collections2;
+import com.google.common.collect.Lists;
 import com.google.common.primitives.Doubles;
 import com.tom.AppSharedData.AllConstants;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Rectangle;
+import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import org.math.plot.Plot2DPanel;
@@ -60,11 +64,11 @@ public class ChartGenerator {
 //            this.getPlot().getAxis(0).setLabelFont(new Font("BebasNeue", Font.BOLD, 30));
             this.getPlot().getAxis(0).setColor(AllConstants.TOM_LETTERS);
             this.getPlot().getAxis(0).setLightLabelColor(AllConstants.TOM_LETTERS);
-            this.getPlot().getAxis(0).setLightLabelFont(new Font("BebasNeue", Font.PLAIN, 55));
+            this.getPlot().getAxis(0).setLightLabelFont(new Font("BebasNeue", Font.PLAIN, 45));
 
             this.getPlot().getAxis(1).setColor(AllConstants.TOM_LETTERS);
             this.getPlot().getAxis(1).setLightLabelColor(AllConstants.TOM_LETTERS);
-            this.getPlot().getAxis(1).setLightLabelFont(new Font("BebasNeue", Font.PLAIN, 55));
+            this.getPlot().getAxis(1).setLightLabelFont(new Font("BebasNeue", Font.PLAIN, 45));
             // add a title
             BaseLabel titleBL = new BaseLabel(title, AllConstants.TOM_LETTERS, 0.5, 1.2);
             titleBL.setFont(new Font("BebasNeue", Font.BOLD, 45));
@@ -75,7 +79,7 @@ public class ChartGenerator {
             double[] greenBarValues = findGreenBarValues(yData, green);
             double width = 0.75;
             HistogramPlot2D redPlot = new HistogramPlot2D(title, AllConstants.TOM_RED, Array.buildXY(xData, redBarValues), width);
-            redPlot.setAlpha(1);    
+            redPlot.setAlpha(1);
             HistogramPlot2D yellowPlot = new HistogramPlot2D(title, AllConstants.TOM_YELLOW, Array.buildXY(xData, yellowBarValues), width);
             yellowPlot.setAlpha(1);
 
@@ -104,8 +108,11 @@ public class ChartGenerator {
             plot.addPlot(greenPlot);
             plot.addPlot(blackLinePlot);
             plot.getAxis(0).setLightLabelText(getNewXAxisLabels(xData).toArray(new String[0]));
+             System.out.println("original->"+Arrays.toString(plot.getAxis(1).getLinesSlicing()));
+            List<String> yAxisLabel=getNewYAxisLabel(plot.getAxis(1).getLinesSlicing());//new labels for yaxis           
+            plot.getAxis(1).setLightLabelText(yAxisLabel.toArray(new String[0]));
             plot.plotCanvas.setBackground(AllConstants.TOM_BACKGROUND);
-            
+
         } else {//if no red or green specified, create a simple bar chart
             HistogramPlot2D plot2D = new HistogramPlot2D(title, barColor, xyData, 0.5);
             this.getPlot().addPlot(plot2D);
@@ -172,7 +179,7 @@ public class ChartGenerator {
         double[] yDataYellowBar = new double[yData.length];
         for (int i = 0; i < yData.length; i++) {
             double d = yData[i];
-            if (d > red && d <= green) {
+            if (d > red && d < green) {
                 yDataYellowBar[i] = d;
             } else {
                 yDataYellowBar[i] = 0;
@@ -192,7 +199,7 @@ public class ChartGenerator {
         double[] yDataGreenBar = new double[yData.length];
         for (int i = 0; i < yData.length; i++) {
             double d = yData[i];
-            if (d > green) {
+            if (d >= green) {
                 yDataGreenBar[i] = d;
             } else {
                 yDataGreenBar[i] = 0;
@@ -282,44 +289,36 @@ public class ChartGenerator {
      * @return
      */
     public List<String> getNewYAxisLabel(double[] yData) {
-        List<String> yAxisLabels = new ArrayList<>();
-        for (int i = 0; i < yData.length; i++) {
-            double d = yData[i];
-            StringBuffer val = new StringBuffer(String.valueOf((int) d));
-            int length = val.length();
-            if (length >= 4) {
-                val.replace(length - 3, length, "K");
-                System.out.println(val.toString());
+                
+        DecimalFormat df = new DecimalFormat("#");
+        List<String> yDataList = new ArrayList<>();
+//        if (yData[1] % 1 != 0) {
+            System.out.println("Contains Decimal places");
+            yDataList.add(0,"0");
+            for (int i = 1; i <= 5; i++) {
+               StringBuilder sb= new StringBuilder(String.valueOf((int)Math.round(yData[i])));//round the value and store it
+                yDataList.add(formatMyData(sb.toString()));                
             }
-            yAxisLabels.add(val.toString());
-
-        }
-        System.out.println(Arrays.toString(yData));
-        System.out.println(yAxisLabels);
-        return yAxisLabels;
+//        } else {
+//            System.out.println("Does Not Contains Decimal places");
+//            yDataList.add(0,"0");
+//            for (int i = 1; i <= 5; i++) {
+//                int val= new BigDecimal(difference*i).intValue();
+//                yDataList.add(formatMyData(String.valueOf(val)));
+//            }
+//        }
+        System.out.println("Array to #.## conversion-> " + yDataList);        
+        return yDataList;
     }
-
-    /**
-     * Method to replace the yAxis label values with custom values
-     *
-     * @param yData
-     * @return
-     */
-    public List<String> getNewYAxisLabel(String[] yData) {
-        List<String> yAxisLabels = new ArrayList<>();
-        for (int i = 0; i < yData.length; i++) {
-            StringBuffer val = new StringBuffer(yData[i]);
-            int length = val.length();
-            if (length >= 4) {
-                val.replace(length - 3, length, "K");
-                System.out.println(val.toString());
-            }
-            yAxisLabels.add(val.toString());
-
-        }
-        System.out.println(Arrays.toString(yData));
-        System.out.println(yAxisLabels);
-        return yAxisLabels;
+    
+    public String formatMyData(String d)
+    {
+        StringBuilder sb= new StringBuilder(d);
+        if(d.length()>=4 && d.length()<=6)
+            sb.replace(sb.length()-3, sb.length(), "K");
+        else if(d.length()>6)
+            sb.replace(sb.length()-6, sb.length(), "M");
+        return sb.toString();
     }
 
     /**

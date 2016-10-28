@@ -12,14 +12,49 @@ public class AppSharedData {
     public static File excelFile = null;
     public static Table table = null;
     public static String collectionName = "dashboard";//Mongo DB Table Name
-    public static boolean MongoRunning=false;
-    public static String serverHost="10.47.10.27";//IP address where the Mongo Server is running
-    public static int port=27017;
-     public static final double marketing_rules_green[]={10,550,.50,425,3.30,4000,950,4,20};
-    public static final double marketing_rules_red[]={5,450,.35,350,2.45,3500,800,2,5};
-    public static final double sales_rules_green[]={40,20,50,20,6000000,300000,300000,7};
-    public static final double sales_rules_red[]={20,10,25,10,4000000,200000,200000,4};
-    public static int CHART_PANEL_Y= 450;
-
+    public static boolean MongoRunning = false;
+    public static String serverHost = "10.47.10.27";//IP address where the Mongo Server is running
+    public static int port = 27017;
+    
+    public static int CHART_PANEL_Y = 450;
+    public static final double marketing_rules_green[] = {
+                                                            10,//webRaq
+                                                            550,//newVisitorsperweek
+                                                            .50,//%newVisit
+                                                            425,//returningVisitsperWeek
+                                                            3.30,//Average Time per session
+                                                            4000,//Webpages Viewed per Week
+                                                            950,//Total Sessions per Week
+                                                            4,//Ave Page Count per Sessions
+                                                            20//Trade Show Leads
+                                                        };
+    public static final double marketing_rules_red[] = {5,//webRaq 
+                                                        450,// newVisitorsperweek
+                                                        .35, //%newVisit
+                                                        350, //returningVisitsperWeek
+                                                        2.45,// Average Time per session
+                                                        3500,// Webpages Viewed per Week
+                                                        800,// Total Sessions per Week
+                                                        2,// Ave Page Count per Sessions
+                                                        5//Trade Show Leads
+                                                    };//newprospect,f2f,networkmining,quotation,pipeline,booking,sakes,pp
+    
+    public static final double sales_rules_green[] = {40, //New Prospects Contacted
+                                                        20, //Face-to-Face Meetings
+                                                        50, //Network Mining
+                                                        20, //Quotations
+                                                        6000000, //Pipeline Value
+                                                        300000, //Bookings
+                                                        300000,//Sales
+                                                        7//Partnership Progress (subjective)
+                                                    };
+    public static final double sales_rules_red[] = {20,//New Prospects Contacted
+                                                    10,//Face-to-Face Meetings
+                                                    25,//Network Mining
+                                                    10,//Quotations
+                                                    4000000,//Pipeline Value
+                                                    200000,//Bookings
+                                                    200000,//Sales
+                                                    4};//Partnership Progress (subjective)
 
 }

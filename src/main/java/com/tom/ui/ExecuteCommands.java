@@ -5,6 +5,8 @@
  */
 package com.tom.ui;
 
+import com.github.lwhite1.tablesaw.api.CategoryColumn;
+import com.github.lwhite1.tablesaw.api.ColumnType;
 import com.github.lwhite1.tablesaw.api.Table;
 import com.github.lwhite1.tablesaw.columns.Column;
 import com.tom.AppSharedData.AllConstants;
@@ -23,12 +25,10 @@ import java.awt.FontFormatException;
 import java.awt.GraphicsEnvironment;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Insets;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -74,7 +74,7 @@ public class ExecuteCommands {
                 }
                 ExcelFileIO excelFileOperations = new ExcelFileIO(AppSharedData.excelFile);
                 ArrayList<ArrayList<String>> excelData = excelFileOperations.getExcelData(weekNumbersStringSet);//get the data from excel in form of arrayList
-                 mongoOps = new MongoOps(MongoServerInstance.getInstance());
+                mongoOps = new MongoOps(MongoServerInstance.getInstance());
                 ArrayList<Document> documentList = mongoOps.createDocument(excelData, weekNumbersSet, weekNumbersStringSet);
                 mongoOps.InsertOrUpdate(AppSharedData.collectionName, documentList);
             } else {
@@ -93,7 +93,7 @@ public class ExecuteCommands {
      * @return
      */
     public List<JPanel> createCharts(Dimension dimension) {
-        System.out.println("Chart Panel Dimension: "+dimension);
+        System.out.println("Chart Panel Dimension: " + dimension);
         List<JPanel> completeChartsList = new ArrayList<>();
         List<Plot2DPanel> plot2DPanelsList = new ArrayList<>();
         JPanel completeChartPanel;
@@ -113,7 +113,6 @@ public class ExecuteCommands {
             switch (col.name()) {
                 case ExcelKeys.webDrivenRAQ:
                     chartGenerator = new ChartGenerator();
-//                    chartGenerator.setDimension(dimension);                    
                     green = AppSharedData.marketing_rules_green[0];
                     red = AppSharedData.marketing_rules_red[0];
                     plot2DPanel = new Plot2DPanel();
@@ -127,19 +126,62 @@ public class ExecuteCommands {
                     plot2DPanelsList.add(chartGenerator.getPlot());
                     createCompleteChart(yData, red, green, plot2DPanel, completeChartsList);
                     break;
-                case ExcelKeys.quotations:
-
+                case ExcelKeys.newVisitorsPerWeek:
                     chartGenerator = new ChartGenerator();
-                    chartGenerator.setDimension(dimension);
-                    green = AppSharedData.sales_rules_green[3];
-                    red = AppSharedData.sales_rules_red[3];
+                    green = AppSharedData.marketing_rules_green[1];
+                    red = AppSharedData.marketing_rules_red[1];
                     plot2DPanel = new Plot2DPanel();
                     plot2DPanel.setSize(dimension);
                     plot2DPanel.setMinimumSize(dimension);
                     plot2DPanel.setMaximumSize(dimension);
                     chartGenerator.setPlot(plot2DPanel);
                     yData = col.last(4).toDoubleArray();
-                    title = "Quotations";
+                    title = "New Visitors per Week";
+                    xAxisTitle = "Week #";
+                    chartGenerator.setGreen(green);//set the green val
+                    chartGenerator.setRed(red);//set the red val
+                    chartGenerator.createHistogramChart(xData, yData, Color.darkGray, xAxisTitle, yAxisTitle, title);
+                    chartGenerator.getPlot().setEditable(false);
+                    plot2DPanelsList.add(chartGenerator.getPlot());
+                    createCompleteChart(yData, red, green, plot2DPanel, completeChartsList);
+                    break;
+
+                case ExcelKeys.pcntNewVisitorsPerWeek:
+                    chartGenerator = new ChartGenerator();
+                    chartGenerator.setDimension(dimension);
+                    green = AppSharedData.marketing_rules_green[2];
+                    red = AppSharedData.marketing_rules_red[2];
+                    plot2DPanel = new Plot2DPanel();
+                    plot2DPanel.setSize(dimension);
+                    plot2DPanel.setMinimumSize(dimension);
+                    plot2DPanel.setMaximumSize(dimension);
+                    chartGenerator.setPlot(plot2DPanel);
+                    yData = col.last(4).toDoubleArray();
+                    for (int i = 0; i < yData.length; i++) {
+                        double d = yData[i]*100;
+                        yData[i]=d;
+                    }
+                    title = "% New Visitors per Week";
+                    xAxisTitle = "Week No";
+                    chartGenerator.setGreen(green*100);//set the green val
+                    chartGenerator.setRed(red*100);//set the red val
+                    chartGenerator.createHistogramChart(xData, yData, Color.darkGray, xAxisTitle, yAxisTitle, title);
+                    plot2DPanelsList.add(chartGenerator.getPlot());
+                    createCompleteChart(yData, red, green, plot2DPanel, completeChartsList);
+                    break;
+
+                case ExcelKeys.returningVisitorsPerWeek:
+                    chartGenerator = new ChartGenerator();
+                    chartGenerator.setDimension(dimension);
+                    green = AppSharedData.marketing_rules_green[3];
+                    red = AppSharedData.marketing_rules_red[3];
+                    plot2DPanel = new Plot2DPanel();
+                    plot2DPanel.setSize(dimension);
+                    plot2DPanel.setMinimumSize(dimension);
+                    plot2DPanel.setMaximumSize(dimension);
+                    chartGenerator.setPlot(plot2DPanel);
+                    yData = col.last(4).toDoubleArray();
+                    title = "Returning Visitors per Week";
                     xAxisTitle = "Week No";
                     chartGenerator.setGreen(green);//set the green val
                     chartGenerator.setRed(red);//set the red val
@@ -147,19 +189,19 @@ public class ExecuteCommands {
                     plot2DPanelsList.add(chartGenerator.getPlot());
                     createCompleteChart(yData, red, green, plot2DPanel, completeChartsList);
                     break;
-                case ExcelKeys.pipelineValue:
 
+                case ExcelKeys.avgTimePerSession:
                     chartGenerator = new ChartGenerator();
                     chartGenerator.setDimension(dimension);
-                    green = AppSharedData.sales_rules_green[4];
-                    red = AppSharedData.sales_rules_red[4];
+                    green = AppSharedData.marketing_rules_green[4];
+                    red = AppSharedData.marketing_rules_red[4];
                     plot2DPanel = new Plot2DPanel();
                     plot2DPanel.setSize(dimension);
                     plot2DPanel.setMinimumSize(dimension);
                     plot2DPanel.setMaximumSize(dimension);
                     chartGenerator.setPlot(plot2DPanel);
                     yData = col.last(4).toDoubleArray();
-                    title = "Pipeline Value";
+                    title = "Average Time per session";
                     xAxisTitle = "Week No";
                     chartGenerator.setGreen(green);//set the green val
                     chartGenerator.setRed(red);//set the red val
@@ -167,9 +209,101 @@ public class ExecuteCommands {
                     plot2DPanelsList.add(chartGenerator.getPlot());
                     createCompleteChart(yData, red, green, plot2DPanel, completeChartsList);
                     break;
+
+                case ExcelKeys.webpagesViewedPerWeek:
+                    chartGenerator = new ChartGenerator();
+                    green = AppSharedData.marketing_rules_green[5];
+                    red = AppSharedData.marketing_rules_red[5];
+                    plot2DPanel = new Plot2DPanel();
+                    plot2DPanel.setSize(dimension);
+                    plot2DPanel.setMinimumSize(dimension);
+                    plot2DPanel.setMaximumSize(dimension);
+                    chartGenerator.setPlot(plot2DPanel);
+                    yData = col.last(4).toDoubleArray();
+                    title = "Webpages Viewed per Week";
+                    xAxisTitle = "Week No";
+                    chartGenerator.setGreen(green);//set the green val
+                    chartGenerator.setRed(red);//set the red val
+                    chartGenerator.createHistogramChart(xData, yData, Color.darkGray, xAxisTitle, yAxisTitle, title);
+                    plot2DPanelsList.add(chartGenerator.getPlot());
+                    createCompleteChart(yData, red, green, plot2DPanel, completeChartsList);
+                    break;
+                case ExcelKeys.totalSessionPerWeek:
+                    chartGenerator = new ChartGenerator();
+                    green = AppSharedData.marketing_rules_green[6];
+                    red = AppSharedData.marketing_rules_red[6];
+                    plot2DPanel = new Plot2DPanel();
+                    plot2DPanel.setSize(dimension);
+                    plot2DPanel.setMinimumSize(dimension);
+                    plot2DPanel.setMaximumSize(dimension);
+                    chartGenerator.setPlot(plot2DPanel);
+                    yData = col.last(4).toDoubleArray();
+                    title = "Total Sessions per Week";
+                    xAxisTitle = "Week No";
+                    chartGenerator.setGreen(green);//set the green val
+                    chartGenerator.setRed(red);//set the red val
+                    chartGenerator.createHistogramChart(xData, yData, Color.darkGray, xAxisTitle, yAxisTitle, title);
+                    plot2DPanelsList.add(chartGenerator.getPlot());
+                    createCompleteChart(yData, red, green, plot2DPanel, completeChartsList);
+                    break;
+                case ExcelKeys.avgPageCountPerSession:
+                    chartGenerator = new ChartGenerator();
+                    green = AppSharedData.marketing_rules_green[7];
+                    red = AppSharedData.marketing_rules_red[7];
+                    plot2DPanel = new Plot2DPanel();
+                    plot2DPanel.setSize(dimension);
+                    plot2DPanel.setMinimumSize(dimension);
+                    plot2DPanel.setMaximumSize(dimension);
+                    chartGenerator.setPlot(plot2DPanel);
+                    yData = col.last(4).toDoubleArray();
+                    title = "Avg Page Count per Sessions";
+                    xAxisTitle = "Week No";
+                    chartGenerator.setGreen(green);//set the green val
+                    chartGenerator.setRed(red);//set the red val
+                    chartGenerator.createHistogramChart(xData, yData, Color.darkGray, xAxisTitle, yAxisTitle, title);
+                    plot2DPanelsList.add(chartGenerator.getPlot());
+                    createCompleteChart(yData, red, green, plot2DPanel, completeChartsList);
+                    break;
+                case ExcelKeys.tradeShowLeads:
+                    chartGenerator = new ChartGenerator();
+                    green = AppSharedData.marketing_rules_green[8];
+                    red = AppSharedData.marketing_rules_red[8];
+                    plot2DPanel = new Plot2DPanel();
+                    plot2DPanel.setSize(dimension);
+                    plot2DPanel.setMinimumSize(dimension);
+                    plot2DPanel.setMaximumSize(dimension);
+                    chartGenerator.setPlot(plot2DPanel);
+                    yData = col.last(4).toDoubleArray();
+                    title = "Trade Show Leads";
+                    xAxisTitle = "Week No";
+                    chartGenerator.setGreen(green);//set the green val
+                    chartGenerator.setRed(red);//set the red val
+                    chartGenerator.createHistogramChart(xData, yData, Color.darkGray, xAxisTitle, yAxisTitle, title);
+                    plot2DPanelsList.add(chartGenerator.getPlot());
+                    createCompleteChart(yData, red, green, plot2DPanel, completeChartsList);
+                    break;
+
+                case ExcelKeys.newProspectsContacted:
+                    chartGenerator = new ChartGenerator();
+                    green = AppSharedData.sales_rules_green[0];
+                    red = AppSharedData.sales_rules_red[0];
+                    plot2DPanel = new Plot2DPanel();
+                    plot2DPanel.setSize(dimension);
+                    plot2DPanel.setMinimumSize(dimension);
+                    plot2DPanel.setMaximumSize(dimension);
+                    chartGenerator.setPlot(plot2DPanel);
+                    yData = col.last(4).toDoubleArray();
+                    title = "New Prospects Contacted";
+                    xAxisTitle = "Week No";
+                    chartGenerator.setGreen(green);//set the green val
+                    chartGenerator.setRed(red);//set the red val
+                    chartGenerator.createHistogramChart(xData, yData, Color.darkGray, xAxisTitle, yAxisTitle, title);
+                    plot2DPanelsList.add(chartGenerator.getPlot());
+                    createCompleteChart(yData, red, green, plot2DPanel, completeChartsList);
+                    break;
+
                 case ExcelKeys.f2fMeetings:
                     chartGenerator = new ChartGenerator();
-                    chartGenerator.setDimension(dimension);
                     green = AppSharedData.sales_rules_green[1];
                     red = AppSharedData.sales_rules_red[1];
                     plot2DPanel = new Plot2DPanel();
@@ -186,9 +320,63 @@ public class ExecuteCommands {
                     plot2DPanelsList.add(chartGenerator.getPlot());
                     createCompleteChart(yData, red, green, plot2DPanel, completeChartsList);
                     break;
+                case ExcelKeys.networkMining:
+                    chartGenerator = new ChartGenerator();
+                    green = AppSharedData.sales_rules_green[2];
+                    red = AppSharedData.sales_rules_red[2];
+                    plot2DPanel = new Plot2DPanel();
+                    plot2DPanel.setSize(dimension);
+                    plot2DPanel.setMinimumSize(dimension);
+                    plot2DPanel.setMaximumSize(dimension);
+                    chartGenerator.setPlot(plot2DPanel);
+                    yData = col.last(4).toDoubleArray();
+                    title = "Network Mining";
+                    xAxisTitle = "Week #";
+                    chartGenerator.setGreen(green);//set the green val
+                    chartGenerator.setRed(red);//set the red val
+                    chartGenerator.createHistogramChart(xData, yData, Color.darkGray, xAxisTitle, yAxisTitle, title);
+                    plot2DPanelsList.add(chartGenerator.getPlot());
+                    createCompleteChart(yData, red, green, plot2DPanel, completeChartsList);
+                    break;
+                case ExcelKeys.quotations:
+                    chartGenerator = new ChartGenerator();
+                    green = AppSharedData.sales_rules_green[3];
+                    red = AppSharedData.sales_rules_red[3];
+                    plot2DPanel = new Plot2DPanel();
+                    plot2DPanel.setSize(dimension);
+                    plot2DPanel.setMinimumSize(dimension);
+                    plot2DPanel.setMaximumSize(dimension);
+                    chartGenerator.setPlot(plot2DPanel);
+                    yData = col.last(4).toDoubleArray();
+                    title = "Quotations";
+                    xAxisTitle = "Week #";
+                    chartGenerator.setGreen(green);//set the green val
+                    chartGenerator.setRed(red);//set the red val
+                    chartGenerator.createHistogramChart(xData, yData, Color.darkGray, xAxisTitle, yAxisTitle, title);
+                    plot2DPanelsList.add(chartGenerator.getPlot());
+                    createCompleteChart(yData, red, green, plot2DPanel, completeChartsList);
+                    break;
+
+                case ExcelKeys.pipelineValue:
+                    chartGenerator = new ChartGenerator();
+                    green = AppSharedData.sales_rules_green[4];
+                    red = AppSharedData.sales_rules_red[4];
+                    plot2DPanel = new Plot2DPanel();
+                    plot2DPanel.setSize(dimension);
+                    plot2DPanel.setMinimumSize(dimension);
+                    plot2DPanel.setMaximumSize(dimension);
+                    chartGenerator.setPlot(plot2DPanel);
+                    yData = col.last(4).toDoubleArray();
+                    title = "Pipeline Value";
+                    xAxisTitle = "Week #";
+                    chartGenerator.setGreen(green);//set the green val
+                    chartGenerator.setRed(red);//set the red val
+                    chartGenerator.createHistogramChart(xData, yData, Color.darkGray, xAxisTitle, yAxisTitle, title);
+                    plot2DPanelsList.add(chartGenerator.getPlot());
+                    createCompleteChart(yData, red, green, plot2DPanel, completeChartsList);
+                    break;
                 case ExcelKeys.bookings:
                     chartGenerator = new ChartGenerator();
-                    chartGenerator.setDimension(dimension);
                     green = AppSharedData.sales_rules_green[5];
                     red = AppSharedData.sales_rules_red[5];
                     plot2DPanel = new Plot2DPanel();
@@ -205,9 +393,9 @@ public class ExecuteCommands {
                     plot2DPanelsList.add(chartGenerator.getPlot());
                     createCompleteChart(yData, red, green, plot2DPanel, completeChartsList);
                     break;
+
                 case ExcelKeys.sales:
                     chartGenerator = new ChartGenerator();
-                    chartGenerator.setDimension(dimension);
                     green = AppSharedData.sales_rules_green[6];
                     red = AppSharedData.sales_rules_red[6];
                     plot2DPanel = new Plot2DPanel();
@@ -224,9 +412,9 @@ public class ExecuteCommands {
                     plot2DPanelsList.add(chartGenerator.getPlot());
                     createCompleteChart(yData, red, green, plot2DPanel, completeChartsList);
                     break;
+
                 case ExcelKeys.partnershipProgress:
                     chartGenerator = new ChartGenerator();
-                    chartGenerator.setDimension(dimension);
                     green = AppSharedData.sales_rules_green[7];
                     red = AppSharedData.sales_rules_red[7];
                     plot2DPanel = new Plot2DPanel();
@@ -249,7 +437,15 @@ public class ExecuteCommands {
         return completeChartsList;
     }
 
-    private void createCompleteChart(double[] yData, double red, double green, Plot2DPanel plot2DPanel, List<JPanel> completeChartsList) throws NumberFormatException {
+    /**
+	 * 
+	 * @param yData
+	 * @param red
+	 * @param green
+	 * @param plot2DPanel
+	 * @param completeChartsList
+	 */
+	private void createCompleteChart(double[] yData, double red, double green, Plot2DPanel plot2DPanel, List completeChartsList) throws NumberFormatException {
         JPanel completeChartPanel;
         TextPro1 pro1;
         completeChartPanel = new JPanel();
@@ -262,15 +458,15 @@ public class ExecuteCommands {
         c.weightx = .90;
         c.weighty = .90;
         c.ipady = 40;
-        c.gridwidth=2;
+        c.gridwidth = 2;
         completeChartPanel.add(plot2DPanel.plotCanvas, c);//item on left, chart
         c.gridx = 1;
         c.gridy = 0;
         c.weightx = .10;
         c.weighty = .10;
-        c.ipadx=0;
+        c.ipadx = 0;
         c.ipady = CHART_PANEL_Y;
-        c.gridwidth=GridBagConstraints.REMAINDER;
+        c.gridwidth = GridBagConstraints.REMAINDER;
         completeChartPanel.add(pro1, c);//item on right
         completeChartsList.add(completeChartPanel);
     }
@@ -324,19 +520,17 @@ public class ExecuteCommands {
             JOptionPane.showMessageDialog(null, "DB Server already running!!");
         }
     }
-    
-    public void deleteRecords(int[] recrodsToDel)
-    {
-        int[] weekNo=recrodsToDel;
-       if(mongoOps==null)
-       {
-           mongoOps = new MongoOps(MongoServerInstance.getInstance());
-       }
+
+    public void deleteRecords(int[] recrodsToDel) {
+        int[] weekNo = recrodsToDel;
+        if (mongoOps == null) {
+            mongoOps = new MongoOps(MongoServerInstance.getInstance());
+        }
         for (int i = 0; i < weekNo.length; i++) {
             int j = weekNo[i];
             mongoOps.deleteRecord(AppSharedData.collectionName, j);
         }
-       
+
     }
 
     /**
@@ -346,7 +540,6 @@ public class ExecuteCommands {
      */
     public JTable showDataTable() {
         Table db_dataTable = myTable.getTable();
-        System.out.println(db_dataTable.print());
         JTable jTable = new JTable(new CustomTableModel(db_dataTable));
         return jTable;
     }
