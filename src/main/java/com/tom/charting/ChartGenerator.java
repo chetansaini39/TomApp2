@@ -158,7 +158,7 @@ public class ChartGenerator {
         double[] yDataRedBar = new double[yData.length];
         for (int i = 0; i < yData.length; i++) {
             double d = yData[i];
-            if (d <= red) {
+            if (d < red) {
                 yDataRedBar[i] = d;
             } else {
                 yDataRedBar[i] = 0;
@@ -179,7 +179,7 @@ public class ChartGenerator {
         double[] yDataYellowBar = new double[yData.length];
         for (int i = 0; i < yData.length; i++) {
             double d = yData[i];
-            if (d > red && d < green) {
+            if (d >= red && d < green) {
                 yDataYellowBar[i] = d;
             } else {
                 yDataYellowBar[i] = 0;

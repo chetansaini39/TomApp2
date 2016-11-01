@@ -36,23 +36,23 @@ public class AppSharedData {
                                                         3500,// Webpages Viewed per Week
                                                         800,// Total Sessions per Week
                                                         2,// Ave Page Count per Sessions
-                                                        5//Trade Show Leads
+                                                        10//Trade Show Leads
                                                     };//newprospect,f2f,networkmining,quotation,pipeline,booking,sakes,pp
     
     public static final double sales_rules_green[] = {40, //New Prospects Contacted
                                                         20, //Face-to-Face Meetings
-                                                        50, //Network Mining
+                                                        40, //Network Mining
                                                         20, //Quotations
-                                                        6000000, //Pipeline Value
+                                                        10000000, //Pipeline Value
                                                         300000, //Bookings
                                                         300000,//Sales
                                                         7//Partnership Progress (subjective)
                                                     };
-    public static final double sales_rules_red[] = {20,//New Prospects Contacted
+    public static final double sales_rules_red[] = {25,//New Prospects Contacted
                                                     10,//Face-to-Face Meetings
                                                     25,//Network Mining
                                                     10,//Quotations
-                                                    4000000,//Pipeline Value
+                                                    7000000,//Pipeline Value
                                                     200000,//Bookings
                                                     200000,//Sales
                                                     4};//Partnership Progress (subjective)

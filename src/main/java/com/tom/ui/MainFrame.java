@@ -39,8 +39,8 @@ public class MainFrame extends javax.swing.JFrame {
      */
     public MainFrame() {
         initComponents();
-//        JTextAreaOutputStream out = new JTextAreaOutputStream(jTextArea1);
-//        System.setOut(new PrintStream(out));
+        JTextAreaOutputStream out = new JTextAreaOutputStream(jTextArea1);
+        System.setOut(new PrintStream(out));
         executeCommands = new ExecuteCommands();
         executeCommands.uploadFont();
     }
