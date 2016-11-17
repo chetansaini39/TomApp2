@@ -270,7 +270,7 @@ public class ChartGenerator {
     public List<String> getNewXAxisLabels(double[] xAxisData) {
         SimpleDateFormat sdf = new SimpleDateFormat("MM/dd ");
         Calendar cal = Calendar.getInstance();
-        cal.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+        cal.set(Calendar.DAY_OF_WEEK, Calendar.SATURDAY);
         List<String> xAxisLabels = new ArrayList<>();
         xAxisLabels.add("");
         for (int i = 0; i < xAxisData.length; i++) {
