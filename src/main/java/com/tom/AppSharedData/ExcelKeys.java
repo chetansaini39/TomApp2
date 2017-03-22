@@ -28,6 +28,7 @@ public class ExcelKeys {
     public static final String pipelineValue="pipelineValue";
     public static final String bookings="bookings";
     public static final String sales="sales";
-    public static final String partnershipProgress="partnershipProgress";      
+    public static final String partnershipProgress="partnershipProgress";   
+    //public static final String newCustomerWins="newCustomerWins";  
             
 }

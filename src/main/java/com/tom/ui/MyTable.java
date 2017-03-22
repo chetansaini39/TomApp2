@@ -51,6 +51,7 @@ public class MyTable {
         FloatColumn col_f2fMeetings = FloatColumn.create(ExcelKeys.f2fMeetings);
         FloatColumn col_networkMining = FloatColumn.create(ExcelKeys.networkMining);
         FloatColumn col_quotations = FloatColumn.create(ExcelKeys.quotations);
+//        CategoryColumn col_newCustomerWins = CategoryColumn.create(ExcelKeys.newCustomerWins);
         FloatColumn col_pipelineValue = FloatColumn.create(ExcelKeys.pipelineValue);
         FloatColumn col_bookings = FloatColumn.create(ExcelKeys.bookings);
         FloatColumn col_sales = FloatColumn.create(ExcelKeys.sales);
@@ -67,7 +68,8 @@ public class MyTable {
 	public Table getTable() {
            
             this.table=createTableFromMongoData(MongoServerInstance.getInstance());    
-            return this.table.sortAscendingOn(ExcelKeys.WEEK_NO);
+//            return this.table.sortAscendingOn("ID"); //it was providing incorrect result for the 2017WK 10,11
+            return this.table;
 	}
 
 	/**

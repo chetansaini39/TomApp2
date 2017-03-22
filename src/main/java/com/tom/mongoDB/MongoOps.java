@@ -98,7 +98,7 @@ public class MongoOps {
             System.out.println("-> " + excelDataList);
             String weekNumString = weekNumStringIterator.next();
             Document document = new Document();
-            document.append("_id", Calendar.getInstance().get(Calendar.YEAR) + weekNumString);//string
+            document.append("_id", "2017"+ weekNumString);//string
             document.append(ExcelKeys.WEEK_NO, weekNumIterator.next());//int value
             document.append(ExcelKeys.webDrivenRAQ, excelDataList.get(0));
             document.append(ExcelKeys.newVisitorsPerWeek, excelDataList.get(1));

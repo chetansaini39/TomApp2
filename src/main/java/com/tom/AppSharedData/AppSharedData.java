@@ -13,7 +13,7 @@ public class AppSharedData {
     public static Table table = null;
     public static String collectionName = "dashboard";//Mongo DB Table Name
     public static boolean MongoRunning = false;
-    public static String serverHost = "10.47.10.27";//IP address where the Mongo Server is running
+    public static String serverHost = "localhost";//IP address where the Mongo Server is running
     public static int port = 27017;
     
     public static int CHART_PANEL_Y = 450;
@@ -39,20 +39,20 @@ public class AppSharedData {
                                                         10//Trade Show Leads
                                                     };//newprospect,f2f,networkmining,quotation,pipeline,booking,sakes,pp
     
-    public static final double sales_rules_green[] = {40, //New Prospects Contacted
-                                                        20, //Face-to-Face Meetings
+    public static final double sales_rules_green[] = {50, //New Prospects Contacted
+                                                        25, //Face-to-Face Meetings
                                                         40, //Network Mining
-                                                        20, //Quotations
-                                                        10000000, //Pipeline Value
-                                                        300000, //Bookings
-                                                        300000,//Sales
+                                                        25, //Quotations
+                                                        20000000, //Pipeline Value
+                                                        260000, //Bookings
+                                                        260000,//Sales
                                                         7//Partnership Progress (subjective)
                                                     };
     public static final double sales_rules_red[] = {25,//New Prospects Contacted
-                                                    10,//Face-to-Face Meetings
+                                                    15,//Face-to-Face Meetings
                                                     25,//Network Mining
-                                                    10,//Quotations
-                                                    7000000,//Pipeline Value
+                                                    15,//Quotations
+                                                    16000000,//Pipeline Value
                                                     200000,//Bookings
                                                     200000,//Sales
                                                     4};//Partnership Progress (subjective)
