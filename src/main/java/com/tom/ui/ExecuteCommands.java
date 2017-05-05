@@ -117,7 +117,7 @@ public class ExecuteCommands {
                     red = AppSharedData.marketing_rules_red[0];
                     plot2DPanel = new Plot2DPanel();
                     chartGenerator.setPlot(plot2DPanel);
-                    yData = col.last(4).toDoubleArray();
+                    yData = col.last(4).toDoubleArray();                    
                     title = "Web Driven RAQ’s per Week";
                     xAxisTitle = "Week #";
                     chartGenerator.setGreen(green);//set the green val

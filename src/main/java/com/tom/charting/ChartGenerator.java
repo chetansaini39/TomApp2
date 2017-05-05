@@ -107,9 +107,9 @@ public class ChartGenerator {
             plot.addPlot(yellowPlot);
             plot.addPlot(greenPlot);
             plot.addPlot(blackLinePlot);
+            System.out.println("original->" + Arrays.toString(plot.getAxis(1).getLinesSlicing()));
             plot.getAxis(0).setLightLabelText(getNewXAxisLabels(xData).toArray(new String[0]));
-             System.out.println("original->"+Arrays.toString(plot.getAxis(1).getLinesSlicing()));
-            List<String> yAxisLabel=getNewYAxisLabel(plot.getAxis(1).getLinesSlicing());//new labels for yaxis           
+            List<String> yAxisLabel = getNewYAxisLabel(plot.getAxis(1).getLinesSlicing());//new labels for yaxis           
             plot.getAxis(1).setLightLabelText(yAxisLabel.toArray(new String[0]));
             plot.plotCanvas.setBackground(AllConstants.TOM_BACKGROUND);
 
@@ -289,16 +289,24 @@ public class ChartGenerator {
      * @return
      */
     public List<String> getNewYAxisLabel(double[] yData) {
-                
-        DecimalFormat df = new DecimalFormat("#");
+        boolean decSignificant = false;
+        BigDecimal bigDecimal;
+        DecimalFormat df = new DecimalFormat("#.#");
         List<String> yDataList = new ArrayList<>();
 //        if (yData[1] % 1 != 0) {
-            System.out.println("Contains Decimal places");
-            yDataList.add(0,"0");
-            for (int i = 1; i <= 5; i++) {
-               StringBuilder sb= new StringBuilder(String.valueOf((int)Math.round(yData[i])));//round the value and store it
-                yDataList.add(formatMyData(sb.toString()));                
+        System.out.println("Contains Decimal places");
+        yDataList.add(0, "0");
+        for (int i = 1; i <= 5; i++) {
+            //String sb= String.valueOf((int)Math.round(yData[i]));//round the value and store it
+            String sb = df.format(yData[i]);//round the value and store it
+            //System.out.println("Sending for rounding: " + sb);
+            bigDecimal = new BigDecimal(yData[i]);
+            //to allow that . is placed for only 4 digit numbers whose float part is significant.
+            if (bigDecimal.remainder(BigDecimal.ONE).floatValue() > 0.2f && bigDecimal.remainder(BigDecimal.ONE).floatValue() < 0.8 || sb.length()==4) {
+                decSignificant = true;
             }
+            yDataList.add(formatMyData(sb, decSignificant));
+        }
 //        } else {
 //            System.out.println("Does Not Contains Decimal places");
 //            yDataList.add(0,"0");
@@ -307,17 +315,28 @@ public class ChartGenerator {
 //                yDataList.add(formatMyData(String.valueOf(val)));
 //            }
 //        }
-        System.out.println("Array to #.## conversion-> " + yDataList);        
+        System.out.println("Array to #.## conversion-> " + yDataList);
         return yDataList;
     }
-    
-    public String formatMyData(String d)
-    {
-        StringBuilder sb= new StringBuilder(d);
-        if(d.length()>=4 && d.length()<=6)
-            sb.replace(sb.length()-3, sb.length(), "K");
-        else if(d.length()>6)
-            sb.replace(sb.length()-6, sb.length(), "M");
+
+    public String formatMyData(String d, boolean decSignificant) {
+        int removeFromLeft = 3;
+        StringBuilder sb = new StringBuilder(d);
+
+        if (d.length() >= 4 && d.length() <= 6) {
+            if (decSignificant) {
+                String secondVal = sb.substring(1, 2);
+                System.out.println("second Val: " + secondVal);
+                int valInt = Integer.parseInt(secondVal);
+                if (valInt > 0) {
+                    sb.insert(1, ".");
+                    removeFromLeft = 2;
+                }
+            }
+            sb.replace(sb.length() - removeFromLeft, sb.length(), "K");
+        } else if (d.length() > 6) {
+            sb.replace(sb.length() - 6, sb.length(), "M");
+        }
         return sb.toString();
     }
 

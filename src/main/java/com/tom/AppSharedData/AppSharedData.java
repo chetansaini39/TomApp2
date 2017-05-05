@@ -18,23 +18,23 @@ public class AppSharedData {
     
     public static int CHART_PANEL_Y = 450;
     public static final double marketing_rules_green[] = {
-                                                            10,//webRaq
-                                                            550,//newVisitorsperweek
-                                                            .50,//%newVisit
-                                                            425,//returningVisitsperWeek
+                                                            15,//webRaq
+                                                            800,//newVisitorsperweek
+                                                            .55,//%newVisit
+                                                            500,//returningVisitsperWeek
                                                             3.30,//Average Time per session
-                                                            4000,//Webpages Viewed per Week
-                                                            950,//Total Sessions per Week
-                                                            4,//Ave Page Count per Sessions
+                                                            4500,//Webpages Viewed per Week
+                                                            1200,//Total Sessions per Week
+                                                            3.7,//Ave Page Count per Sessions
                                                             20//Trade Show Leads
                                                         };
-    public static final double marketing_rules_red[] = {5,//webRaq 
-                                                        450,// newVisitorsperweek
-                                                        .35, //%newVisit
-                                                        350, //returningVisitsperWeek
+    public static final double marketing_rules_red[] = {10,//webRaq 
+                                                        600,// newVisitorsperweek
+                                                        .45, //%newVisit
+                                                        400, //returningVisitsperWeek
                                                         2.45,// Average Time per session
-                                                        3500,// Webpages Viewed per Week
-                                                        800,// Total Sessions per Week
+                                                        4000,// Webpages Viewed per Week
+                                                        900,// Total Sessions per Week
                                                         2,// Ave Page Count per Sessions
                                                         10//Trade Show Leads
                                                     };//newprospect,f2f,networkmining,quotation,pipeline,booking,sakes,pp
