@@ -39,11 +39,11 @@ public class AppSharedData {
                                                         10//Trade Show Leads
                                                     };//newprospect,f2f,networkmining,quotation,pipeline,booking,sakes,pp
     
-    public static final double sales_rules_green[] = {50, //New Prospects Contacted
+    public static final double sales_rules_green[] = {40, //New Prospects Contacted
                                                         25, //Face-to-Face Meetings
-                                                        40, //Network Mining
-                                                        25, //Quotations
-                                                        20000000, //Pipeline Value
+                                                        35, //Network Mining
+                                                        20, //Quotations
+                                                        25000000, //Pipeline Value
                                                         260000, //Bookings
                                                         260000,//Sales
                                                         7//Partnership Progress (subjective)
@@ -52,7 +52,7 @@ public class AppSharedData {
                                                     15,//Face-to-Face Meetings
                                                     25,//Network Mining
                                                     15,//Quotations
-                                                    16000000,//Pipeline Value
+                                                    20000000,//Pipeline Value
                                                     200000,//Bookings
                                                     200000,//Sales
                                                     4};//Partnership Progress (subjective)
